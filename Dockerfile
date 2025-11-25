@@ -4,6 +4,10 @@ WORKDIR /app
 COPY . .
 RUN mvn -q clean package -DskipTests
 
+COPY src/main/resources/wallet /app/wallet
+ENV TNS_ADMIN=/app/wallet
+
+
 # Etapa 2: ejecutar el JAR
 FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
