@@ -22,7 +22,6 @@ public class UsuarioRegisterDTO {
     @NotBlank(message = "El teléfono es obligatorio")
     private String userPhone;
 
-    @NotBlank(message = "La dirección es obligatoria")
     private String userAdress;
 
     private String avatarUrl; // opcional

@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "productos")
 @Data
@@ -22,6 +21,12 @@ public class Producto {
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
 
+    @Column(name = "puntos")
+    private Integer puntosNecesarios;
+
+
+    private String precioReferencia;
+
     @Column(name = "descripcion", length = 500)
     private String descripcion;
 
@@ -32,8 +37,8 @@ public class Producto {
     private Integer stock;
 
     @Column(name = "imagen_url", length = 255)
-    private String imagenUrl; // Ruta o URL de la imagen del producto
+    private String imagenUrl;
 
     @Column(name = "categoria", length = 100)
-    private String categoria; // Ejemplo: “Periféricos”, “Sillas”, “Hardware”
+    private String categoria;
 }

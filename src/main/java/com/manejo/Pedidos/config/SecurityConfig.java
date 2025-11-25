@@ -15,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 @Configuration
 public class SecurityConfig {
 
@@ -27,48 +26,36 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
 
-                        // Endpoints públicos:
+                        // Rutas públicas reales
                         .requestMatchers(
                                 "/api/usuarios/registro",
                                 "/api/usuarios/login",
-                                "/v3/api-docs/**",
+                                "/api/productos/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
-                                "/swagger-ui/**",
-                                "/swagger-ui.html",
-                                "/v3/api-docs/**",
-                                "/v3/api-docs.yaml"
-
+                                "/v3/api-docs/**"
                         ).permitAll()
 
-                        // El resto requiere autenticación:
-                        .requestMatchers("/api/productos/**").hasRole("ADMIN")
-                        .requestMatchers("/api/usuarios/**").authenticated()
-                        .anyRequest().authenticated()
+                        // Rutas que sí requieren token
+                        .requestMatchers(
+                                "/api/admin/**",
+                                "/api/pedidos/**"
+                        ).authenticated()
+
+                        // TODO LO DEMÁS debe ser público (importante!)
+                        .anyRequest().permitAll()
                 );
 
-        // Agregar nuestro filtro antes del filtro estándar de username/password
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
-    }
-
-    // (Solo si en algún momento quieres usar AuthenticationManager)
-    @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authConfig
-    ) throws Exception {
-        return authConfig.getAuthenticationManager();
     }
 }

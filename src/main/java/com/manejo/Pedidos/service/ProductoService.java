@@ -49,33 +49,23 @@ public class ProductoService {
 
 
     // ========== ACTUALIZAR PRODUCTO COMPLETO ==========
-    public Producto actualizarProducto(Long id, Producto datosActualizados) {
+    public Producto actualizarProducto(Long id, Producto datos) {
 
-        Producto producto = productoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado."));
+        Producto p = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-        if (datosActualizados.getNombre() != null) {
-            producto.setNombre(datosActualizados.getNombre());
-        }
+        if (datos.getNombre() != null) p.setNombre(datos.getNombre());
+        if (datos.getDescripcion() != null) p.setDescripcion(datos.getDescripcion());
+        if (datos.getPrecio() != null) p.setPrecio(datos.getPrecio());
+        if (datos.getStock() != null) p.setStock(datos.getStock());
+        if (datos.getCategoria() != null) p.setCategoria(datos.getCategoria());
+        if (datos.getImagenUrl() != null) p.setImagenUrl(datos.getImagenUrl());
+        if (datos.getPuntosNecesarios() != null) p.setPuntosNecesarios(datos.getPuntosNecesarios());
+        if (datos.getPrecioReferencia() != null) p.setPrecioReferencia(datos.getPrecioReferencia());
 
-        if (datosActualizados.getDescripcion() != null) {
-            producto.setDescripcion(datosActualizados.getDescripcion());
-        }
-
-        if (datosActualizados.getPrecio() != null && datosActualizados.getPrecio().compareTo(BigDecimal.ZERO) <= 0) {
-            producto.setPrecio(datosActualizados.getPrecio());
-        }
-
-        if (datosActualizados.getStock() != null && datosActualizados.getStock() >= 0) {
-            producto.setStock(datosActualizados.getStock());
-        }
-
-        if (datosActualizados.getImagenUrl() != null) {
-            producto.setImagenUrl(datosActualizados.getImagenUrl());
-        }
-
-        return productoRepository.save(producto);
+        return productoRepository.save(p);
     }
+
 
 
     // ========== MODIFICAR SOLO EL STOCK ==========
