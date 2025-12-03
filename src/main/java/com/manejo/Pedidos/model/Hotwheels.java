@@ -28,6 +28,7 @@ public class Hotwheels {
     @Column(name = "favorito", nullable = false)
     private Boolean favorito = false;
 
-    @Column(name = "url_imagen", length = 255)
+    @Lob
+    @Column(name = "url_imagen", length = 255, columnDefinition = "CLOB")
     private String urlImagen;
 }
