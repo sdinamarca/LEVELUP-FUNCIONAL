@@ -178,6 +178,7 @@ public class UsuarioService {
         dto.setUserName(usuario.getUserName());
         dto.setUserEmail(usuario.getUserEmail());
         dto.setAvatarUrl(usuario.getAvatarUrl());
+        dto.setRol(usuario.getRol());
 
         return dto;
     }
